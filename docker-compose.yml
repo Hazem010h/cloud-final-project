@@ -14,16 +14,16 @@ services:
     build: ./api
     restart: always
     ports:
-      - 6666:6666
+      - 5000:5000
     depends_on:
       - db
-  website:
-    build: cloud_website/.
-    ports:
-      - 4444:80
-    depends_on:
-      - api
-    links:
-      - api
+#  website:
+#    build: cloud_website/.
+#    ports:
+#      - 4444:80
+#    depends_on:
+#      - api
+#    links:
+#      - api
 volumes:
   mongo-data:

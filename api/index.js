@@ -4,9 +4,23 @@ const connectDB = require("./db");
 const User = require("./user");
 
 const app = express();
-app.use(express.json());
 
 connectDB();
+
+const post = 5000;
+app.use(
+    express.json(),
+    cors({
+        origin: "*",
+        methods: ["GET", "POST", "DELETE", "UPDATE", "PUT", "PATCH"],
+        credentials:true,
+        accesscontrolalloworigin: "*",
+    })
+);
+app.listen(post, () => {
+    console.log(`Auth Server is running on port ${post}`);
+});
+
 
 app.post("/accounts/signin", async (req, res) => {
     try {
@@ -62,15 +76,4 @@ app.delete("/accounts/delete", async (req, res) => {
     } catch (error) {
         res.json({ message: error.toString("ascii") }).status(500);
     }
-});
-
-const post = 6666;
-app.use(
-    cors({
-        origin: "*",
-        methods: ["GET", "POST", "DELETE", "UPDATE", "PUT", "PATCH"],
-    })
-);
-app.listen(post, () => {
-    console.log(`Auth Server is running on port ${post}`);
 });
