@@ -1,10 +1,12 @@
 import 'package:bloc/bloc.dart';
 import 'package:cloud_website/login_screen/login_screen.dart';
 import 'package:cloud_website/shared/bloc_observer.dart';
+import 'package:cloud_website/shared/network/remote/dio_helper.dart';
 import 'package:flutter/material.dart';
 
-void main() {
+void main() async{
   Bloc.observer=MyBlocObserver();
+  await DioHelper.init();
   runApp(const MyApp());
 }
 

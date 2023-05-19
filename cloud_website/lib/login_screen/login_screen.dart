@@ -1,12 +1,13 @@
 import 'package:cloud_website/register_screen/register_screen.dart';
 import 'package:cloud_website/shared/components/components.dart';
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'cubit/login_cubit.dart';
 import 'cubit/login_states.dart';
 
-var emailController=TextEditingController();
-var passController=TextEditingController();
+var loginEmail=TextEditingController();
+var loginPass=TextEditingController();
 var formKey=GlobalKey<FormState>();
 
 class LoginScreen extends StatelessWidget {
@@ -36,7 +37,7 @@ class LoginScreen extends StatelessWidget {
                     child: Column(
                       children: [
                         defaultFormField(
-                            controller: emailController,
+                            controller: loginEmail,
                             prefixIcon:const Icon(
                                 Icons.email
                             ),
@@ -57,7 +58,7 @@ class LoginScreen extends StatelessWidget {
                             prefixIcon: const Icon(
                                 Icons.key
                             ),
-                            controller: passController,
+                            controller: loginPass,
                             obscure:cubit.isVisible? false:true,
                             keyboardType: TextInputType.text,
                             label: 'Password',
@@ -79,13 +80,20 @@ class LoginScreen extends StatelessWidget {
                         const SizedBox(
                           height: 30,
                         ),
-                        defaultButton(
-                            label: 'Login',
-                            function: (){
-                              if(formKey.currentState!.validate()){
-
+                        ConditionalBuilder(
+                          condition: state is! LoginLoadingState,
+                          builder: (context)=>defaultButton(
+                              label: 'Login',
+                              function: (){
+                                if(formKey.currentState!.validate()){
+                                  cubit.userLogin(
+                                    email: loginEmail.text,
+                                    password: loginPass.text,
+                                  );
+                                }
                               }
-                            }
+                          ),
+                          fallback: (context)=>const Center(child: CircularProgressIndicator(),),
                         ),
                         const SizedBox(
                           height: 30,
