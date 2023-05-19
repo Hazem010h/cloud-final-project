@@ -14,7 +14,7 @@ services:
     build: ./auth
     restart: always
     ports:
-      - 5000:5000
+      - 6666:6666
     depends_on:
       - db
 volumes:

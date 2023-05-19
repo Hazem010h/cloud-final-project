@@ -64,7 +64,7 @@ app.delete("/accounts/delete", async (req, res) => {
     }
 });
 
-const post = 5000;
+const post = 6666;
 app.use(
     cors({
         origin: "*",
