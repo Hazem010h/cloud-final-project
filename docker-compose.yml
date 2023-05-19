@@ -10,12 +10,20 @@ services:
       - 27017:27017
     volumes:
       - mongo-data:/data/db
-  app:
-    build: ./auth
+  api:
+    build: ./api
     restart: always
     ports:
       - 6666:6666
     depends_on:
       - db
+  website:
+    build: cloud_website/.
+    ports:
+      - 4444:80
+    depends_on:
+      - api
+    links:
+      - api
 volumes:
   mongo-data:
