@@ -7,7 +7,7 @@ const app = express();
 
 connectDB();
 
-const post = 5000;
+const post = 3000;
 app.use(
     express.json(),
     cors({
