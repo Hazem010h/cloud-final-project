@@ -8,7 +8,7 @@ app.use(express.json());
 
 connectDB();
 
-app.get("/accounts/signin", async (req, res) => {
+app.post("/accounts/signin", async (req, res) => {
     try {
         const user = await User.findOne({ email: req.body.email, password: req.body.password });
         if (!user) throw new Error("User not found");
