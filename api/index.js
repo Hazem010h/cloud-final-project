@@ -23,7 +23,7 @@ app.listen(post, () => {
 });
 
 
-app.post("/accounts/signin", async (req, res) => {
+app.post("/accounts/signin", async (req, res) => { //done
     try {
         const user = await User.findOne({ email: req.body.email, password: req.body.password });
         if (!user) throw new Error("User not found");
@@ -33,7 +33,7 @@ app.post("/accounts/signin", async (req, res) => {
     }
 });
 
-app.get("/accounts/get/:id", async (req, res) => {
+app.get("/accounts/get/:id", async (req, res) => { //done
     try {
         const user = await User.findById(req.params.id);
         if (!user) throw new Error("User not found");
@@ -43,10 +43,10 @@ app.get("/accounts/get/:id", async (req, res) => {
     }
 });
 
-app.post("/accounts/signup", async (req, res) => {
+app.post("/accounts/signup", async (req, res) => { // done
     try {
-        const { name, email, password } = req.body;
-        const user = new User({ name, email, password });
+        const { name, email, password,admin } = req.body;
+        const user = new User({ name, email, password, admin });
         if (!user) throw new Error("sign up failed");
         await user.save();
         res.json({user:user,message:"sign up success"}).status(200);
@@ -55,7 +55,7 @@ app.post("/accounts/signup", async (req, res) => {
     }
 });
 
-app.put("/accounts/update/:email", async (req, res) => {
+app.put("/accounts/update/:email", async (req, res) => { //done
     try {
         const user = await User.findOneAndUpdate(
             { email: req.params.email},
@@ -69,7 +69,7 @@ app.put("/accounts/update/:email", async (req, res) => {
     }
 });
 
-app.delete("/accounts/delete", async (req, res) => {
+app.delete("/accounts/delete", async (req, res) => { //done
     try {
         const user = await User.findOneAndDelete(req.body.id);
         if (!user) throw new Error("User not found");
@@ -79,7 +79,7 @@ app.delete("/accounts/delete", async (req, res) => {
     }
 });
 
-app.post("/accounts/addtocart", async (req, res) => {
+app.post("/accounts/addtocart", async (req, res) => { //done
     try{
         const { name, quantity, price, id } = req.body;
         const product = new Product({ name, quantity, price });
@@ -97,15 +97,19 @@ app.post("/accounts/addtocart", async (req, res) => {
     }
 });
 
-app.post("/accounts/removefromcart", async (req, res) => {
+app.post("/accounts/removefromcart", async (req, res) => { //done
     try{
         const {userId,productId}=req.body;
-        const user=await User.findOneAndUpdate(
-            { _id: userId},
-            {$pop:{cart:{_id:productId}}},
-            { new: true }
-        );
+        const user=await User.findOne({_id:userId});
         if (!user) throw new Error("User not found");
+        const cart=user.cart;
+        const newCart=cart.filter((product)=>product._id!=productId);
+        user.cart=newCart;
+        const newUser=await User.findOneAndUpdate(
+            { _id: userId},
+            user,
+            { new: true },
+        );
         res.json({user:user,message:"remove from cart success"}).status(200);
     }
     catch (error) {
@@ -113,7 +117,7 @@ app.post("/accounts/removefromcart", async (req, res) => {
     }
 });
 
-app.post("/products/add", async (req, res) => {
+app.post("/products/add", async (req, res) => { //done
     try {
         const { name, quantity, price } = req.body;
         const product = new Product({ name, quantity, price });
@@ -125,7 +129,7 @@ app.post("/products/add", async (req, res) => {
     }
 });
 
-app.get("/products/get", async (req, res) => {
+app.get("/products/get", async (req, res) => { //done
     try {
         const product = await Product.find();
         if (!product) throw new Error("product not found");
@@ -135,9 +139,9 @@ app.get("/products/get", async (req, res) => {
     }
 });
 
-app.get("/products/get/:id", async (req, res) => {
+app.get("/products/get/:name", async (req, res) => { //done
     try {
-        const product = await Product.findById(req.params.id);
+        const product = await Product.findOne({ name: req.params.name});
         if (!product) throw new Error("product not found");
         res.json(product).status(200);
     } catch (error) {
@@ -145,9 +149,9 @@ app.get("/products/get/:id", async (req, res) => {
     }
 });
 
-app.post("/products/filter", async (req, res) => {
+app.post("/products/filter", async (req, res) => { //done
     try {
-        const products = await Product.findOne({_id:req.body.id, price:{$gte:req.body.min,$lte:req.body.max}});
+        const products = await Product.find({price:{$gte:req.body.min,$lte:req.body.max}});
         if (!products) throw new Error("products not found");
         res.json({message: "search success",products: products}).status(200);
     } catch (error) {
@@ -155,10 +159,10 @@ app.post("/products/filter", async (req, res) => {
     }
 });
 
-app.put("/products/update/:id", async (req, res) => {
+app.put("/products/update/:name", async (req, res) => { //done
     try {
         const product = await Product.findOneAndUpdate(
-            { _id: req.params.id},
+            { name: req.params.name},
             req.body,
             { new: true }
         );
@@ -166,6 +170,17 @@ app.put("/products/update/:id", async (req, res) => {
         res.json({product:product,message:"update success"}).status(200);
     }
     catch (error) { 
+        res.json({ message: error.toString("ascii") }).status(500);
+    }
+});
+
+app.delete("/products/delete", async (req, res) => { //done
+    try {
+        const product = await Product.findOneAndDelete(req.body.id);
+        if (!product) throw new Error("product not found");
+        res.json(product).status(200);
+    }
+    catch (error) {
         res.json({ message: error.toString("ascii") }).status(500);
     }
 });
