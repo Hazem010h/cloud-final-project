@@ -1,4 +1,4 @@
-import 'package:cloud_website/main_screens/setting_screen.dart';
+import 'package:cloud_website/main_screens/layout/layout.dart';
 import 'package:cloud_website/register_screen/register_screen.dart';
 import 'package:cloud_website/shared/components/components.dart';
 import 'package:cloud_website/shared/components/constants.dart';
@@ -29,7 +29,7 @@ class LoginScreen extends StatelessWidget {
             ).then((value){
               navigateToFinish(
                 context: context,
-                screen: const SettingScreen(),
+                screen: const LayoutScreen(),
               );
             });
 

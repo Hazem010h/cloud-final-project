@@ -16,3 +16,9 @@ class ChangePasswordSuccessState extends MainStates{}
 
 class UpdateUserDataSuccessState extends MainStates{}
 
+class ChangeNavigationState extends MainStates{}
+
+class GetProductSuccessState extends MainStates{}
+
+class GetProductErrorState extends MainStates{}
+

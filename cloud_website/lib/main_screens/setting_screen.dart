@@ -28,88 +28,80 @@ class _SettingScreenState extends State<SettingScreen> {
         listener: (context,state){},
         builder: (context,state){
           var cubit=MainCubit.get(context);
-          return Scaffold(
-            appBar: AppBar(
-              centerTitle: true,
-              title: const Text(
-                  'Setting'
-              ),
-            ),
-            body: ConditionalBuilder(
-                condition: cubit.userModel!=null,
-                builder: (context){
-                  return Center(
-                    child: SingleChildScrollView(
-                      child: Padding(
-                        padding: const EdgeInsets.all(20.0),
-                        child: Column(
-                          children: [
-                            Text(
-                              'Hello: ${cubit.userModel!.name}',
-                              style: const TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w900
-                              ),
+          return ConditionalBuilder(
+              condition: cubit.userModel!=null,
+              builder: (context){
+                return Center(
+                  child: SingleChildScrollView(
+                    child: Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Column(
+                        children: [
+                          Text(
+                            'Hello: ${cubit.userModel!.name}',
+                            style: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w900
                             ),
-                            const SizedBox(
-                              height: 20,
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          Text(
+                            'Email: ${cubit.userModel!.email}',
+                            style: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w900
                             ),
-                            Text(
-                              'Email: ${cubit.userModel!.email}',
-                              style: const TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w900
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            defaultButton(
-                                width: MediaQuery.of(context).size.width*0.3,
-                                height: 30,
-                                label: 'Change password',
-                                function: (){
-                                  navigateTo(
-                                      context: context,
-                                      screen: const ChangePasswordScreen(),
-                                  );
-                                }
-                            ),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            defaultButton(
-                                width: MediaQuery.of(context).size.width*0.3,
-                                height: 30,
-                                label: 'Edit profile',
-                                function: (){
-                                  navigateTo(
-                                    context: context,
-                                    screen: const EditProfileScreen(),
-                                  );
-                                }
-                            ),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            defaultButton(
-                                width: MediaQuery.of(context).size.width*0.3,
-                                height: 30,
-                                label: 'Logout',
-                                function: (){
-                                  cubit.logout(context: context);
-                                }
-                            ),
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          defaultButton(
+                              width: MediaQuery.of(context).size.width*0.3,
+                              height: 30,
+                              label: 'Change password',
+                              function: (){
+                                navigateTo(
+                                  context: context,
+                                  screen: const ChangePasswordScreen(),
+                                );
+                              }
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          defaultButton(
+                              width: MediaQuery.of(context).size.width*0.3,
+                              height: 30,
+                              label: 'Edit profile',
+                              function: (){
+                                navigateTo(
+                                  context: context,
+                                  screen: const EditProfileScreen(),
+                                );
+                              }
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          defaultButton(
+                              width: MediaQuery.of(context).size.width*0.3,
+                              height: 30,
+                              label: 'Logout',
+                              function: (){
+                                cubit.logout(context: context);
+                              }
+                          ),
 
 
-                          ],
-                        ),
+                        ],
                       ),
                     ),
-                  );
-                },
-                fallback: (context)=>const Center(child: CircularProgressIndicator(),)
-            ),
+                  ),
+                );
+              },
+              fallback: (context)=>const Center(child: CircularProgressIndicator(),)
           );
         }
     );

@@ -1,6 +1,6 @@
 import 'package:cloud_website/login_screen/login_screen.dart';
 import 'package:cloud_website/main_screens/cubit/main_cubit.dart';
-import 'package:cloud_website/main_screens/setting_screen.dart';
+import 'package:cloud_website/main_screens/layout/layout.dart';
 import 'package:cloud_website/shared/bloc_observer.dart';
 import 'package:cloud_website/shared/components/constants.dart';
 import 'package:cloud_website/shared/network/local/cache_helper.dart';
@@ -8,16 +8,16 @@ import 'package:cloud_website/shared/network/remote/dio_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'main_screens/cubit/main_states.dart';
 
 void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
   Bloc.observer=MyBlocObserver();
   await CacheHelper.init();
   uId=CacheHelper.getData(key: 'uId');
   Widget widget;
    DioHelper.init();
   if(uId!=null){
-    widget=const SettingScreen();
+    widget=const LayoutScreen();
   }else{
     widget=const LoginScreen();
   }
@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return  BlocProvider(
-      create: (BuildContext context)=>MainCubit()..getUserData(),
+      create: (BuildContext context)=>MainCubit()..getUserData()..getProducts(),
       child:MaterialApp(
         debugShowCheckedModeBanner: false,
         home: startPage,
