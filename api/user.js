@@ -15,6 +15,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    cart:{
+        type: Array,
+        required: false,
+    },
 });
 userSchema.plugin(uniqueValidator);
 
