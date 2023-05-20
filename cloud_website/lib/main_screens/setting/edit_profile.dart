@@ -85,6 +85,10 @@ class EditProfileScreen extends StatelessWidget {
                           label: 'Edit profile',
                           function: (){
                             if(formKey.currentState!.validate()){
+                              cubit.updateProfile(
+                                  email: emailController.text,
+                                  name: nameController.text,
+                              );
                                 Navigator.pop(context);
                                 cubit.getUserData();
                                 cubit.getUserData();
