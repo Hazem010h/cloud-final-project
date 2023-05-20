@@ -81,8 +81,8 @@ app.delete("/accounts/delete", async (req, res) => { //done
 
 app.post("/accounts/addtocart", async (req, res) => { //done
     try{
-        const { name, quantity, price, id } = req.body;
-        const product = new Product({ name, quantity, price });
+        const { name, quantity, price,description, id } = req.body;
+        const product = new Product({ name, quantity, price,description });
         if (!product) throw new Error("add product failed");
         const user=await User.findOneAndUpdate(
             { _id: id},
@@ -119,8 +119,8 @@ app.post("/accounts/removefromcart", async (req, res) => { //done
 
 app.post("/products/add", async (req, res) => { //done
     try {
-        const { name, quantity, price } = req.body;
-        const product = new Product({ name, quantity, price });
+        const { name, quantity, price,description } = req.body;
+        const product = new Product({ name, quantity, price,description });
         if (!product) throw new Error("add product failed");
         await product.save();
         res.json({product:product,message:"add product success"}).status(200);
