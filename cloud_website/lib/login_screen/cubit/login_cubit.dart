@@ -1,4 +1,6 @@
 import 'package:cloud_website/login_screen/cubit/login_states.dart';
+import 'package:cloud_website/models/user_model.dart';
+import 'package:cloud_website/shared/components/constants.dart';
 import 'package:cloud_website/shared/network/remote/dio_helper.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -15,6 +17,8 @@ class LoginCubit extends Cubit<LoginStates>{
     emit(ChangeVisibilityState());
   }
 
+  UserModel? userModel;
+
   userLogin({
     required String email,
     required String password,
@@ -28,8 +32,13 @@ class LoginCubit extends Cubit<LoginStates>{
           'password':password,
         }
     ).then((value){
-      emit(LoginSuccessState());
-      print(value.data);
+      if(value.data['message']=="login success"){
+        userModel=UserModel.fromJson(value.data);
+        uId=userModel!.user!.sId;
+        emit(LoginSuccessState());
+      }else{
+        emit(LoginErrorState());
+      }
     }).catchError((error){
       print(error.toString());
       emit(LoginErrorState());

@@ -1,5 +1,8 @@
+import 'package:cloud_website/main_screens/setting_screen.dart';
 import 'package:cloud_website/register_screen/register_screen.dart';
 import 'package:cloud_website/shared/components/components.dart';
+import 'package:cloud_website/shared/components/constants.dart';
+import 'package:cloud_website/shared/network/local/cache_helper.dart';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,7 +21,20 @@ class LoginScreen extends StatelessWidget {
     return BlocProvider(
       create: (BuildContext context)=>LoginCubit(),
       child: BlocConsumer<LoginCubit,LoginStates>(
-        listener: (context,state){},
+        listener: (context,state){
+          if(state is LoginSuccessState){
+            CacheHelper.saveData(
+              key: 'uId',
+              value: uId,
+            ).then((value){
+              navigateToFinish(
+                context: context,
+                screen: const SettingScreen(),
+              );
+            });
+
+          }
+        },
         builder: (context,state){
           var cubit=LoginCubit.get(context);
           return Form(
@@ -90,6 +106,8 @@ class LoginScreen extends StatelessWidget {
                                     email: loginEmail.text,
                                     password: loginPass.text,
                                   );
+                                  loginPass.clear();
+                                  loginEmail.clear();
                                 }
                               }
                           ),

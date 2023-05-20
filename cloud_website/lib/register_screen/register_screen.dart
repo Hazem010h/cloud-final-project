@@ -1,6 +1,7 @@
 import 'package:cloud_website/register_screen/register_cubit.dart';
 import 'package:cloud_website/register_screen/register_states.dart';
 import 'package:cloud_website/shared/components/components.dart';
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -17,7 +18,11 @@ class RegisterScreen extends StatelessWidget {
     return BlocProvider(
       create: (BuildContext context)=>RegisterCubit(),
       child: BlocConsumer<RegisterCubit,RegisterStates>(
-        listener: (context,state){},
+        listener: (context,state){
+          if(state is RegisterSuccessState){
+            Navigator.pop(context);
+          }
+        },
         builder: (context,state){
           var cubit=RegisterCubit.get(context);
           return Form(
@@ -97,13 +102,26 @@ class RegisterScreen extends StatelessWidget {
                         const SizedBox(
                           height: 30,
                         ),
-                        defaultButton(
-                            label: 'Register',
-                            function: (){
-                              if(formKey.currentState!.validate()){
-
+                        ConditionalBuilder(
+                          condition: state is! RegisterLoadingState,
+                          builder:(context)=> defaultButton(
+                              label: 'Register',
+                              function: (){
+                                if(formKey.currentState!.validate()){
+                                  cubit.userRegister(
+                                      name: nameController.text,
+                                      email: emailController.text,
+                                      password: passController.text,
+                                  );
+                                  nameController.clear();
+                                  emailController.clear();
+                                  passController.clear();
+                                }
                               }
-                            }
+                          ),
+                          fallback: (context)=>const Center(
+                            child: CircularProgressIndicator(),
+                          ),
                         ),
                         const SizedBox(
                           height: 30,
