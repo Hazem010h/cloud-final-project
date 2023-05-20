@@ -1,11 +1,14 @@
-import 'package:bloc/bloc.dart';
 import 'package:cloud_website/login_screen/login_screen.dart';
+import 'package:cloud_website/main_screens/cubit/main_cubit.dart';
 import 'package:cloud_website/main_screens/setting_screen.dart';
 import 'package:cloud_website/shared/bloc_observer.dart';
 import 'package:cloud_website/shared/components/constants.dart';
 import 'package:cloud_website/shared/network/local/cache_helper.dart';
 import 'package:cloud_website/shared/network/remote/dio_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'main_screens/cubit/main_states.dart';
 
 void main() async{
   Bloc.observer=MyBlocObserver();
@@ -29,9 +32,12 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return  MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: startPage,
+    return  BlocProvider(
+      create: (BuildContext context)=>MainCubit()..getUserData(),
+      child:MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: startPage,
+      ),
     );
   }
 }
