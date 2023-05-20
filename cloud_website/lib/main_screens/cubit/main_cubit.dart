@@ -18,15 +18,49 @@ class MainCubit extends Cubit<MainStates>{
   getUserData(){
     emit(GetUserDataLoadingState());
     DioHelper.getData(
-      url: 'accounts/get',
-      query: {
-        'id':uId,
-      }
+      url: 'accounts/get/$uId',
     ).then((value){
-      print(value.data);
-      print(uId);
       userModel=UserModel.fromJson(value.data);
       emit(GetUserDataSuccessState());
+    }).catchError((error){
+    });
+  }
+
+  bool isVisible=false;
+
+  changeVisibility(){
+    isVisible=!isVisible;
+    emit(ChangeVisibilityState());
+  }
+
+  changePassword({
+    required password
+}){
+    DioHelper.putData(
+        url: 'accounts/update/${userModel!.email}',
+        data: {
+          'password':password,
+        }
+    ).then((value){
+      userModel=null;
+      userModel=UserModel.fromJson(value.data);
+      emit(ChangePasswordSuccessState());
+    });
+  }
+
+  updateProfile({
+    required String email,
+    required String name,
+}){
+    DioHelper.putData(
+        url: 'accounts/update/${userModel!.email}',
+        data: {
+          'name':name,
+          'email':email,
+        }
+    ).then((value){
+      userModel=UserModel.fromJson(value.data);
+      emit(UpdateUserDataSuccessState());
     });
   }
 

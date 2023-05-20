@@ -33,8 +33,8 @@ class LoginCubit extends Cubit<LoginStates>{
         }
     ).then((value){
       if(value.data['message']=="login success"){
-        userModel=UserModel.fromJson(value.data);
-        uId=userModel!.user!.sId;
+        uId=value.data['user']['_id'];
+        print(uId);
         emit(LoginSuccessState());
       }else{
         emit(LoginErrorState());
