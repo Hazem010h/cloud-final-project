@@ -174,9 +174,11 @@ app.put("/products/update/:name", async (req, res) => { //done
     }
 });
 
-app.delete("/products/delete", async (req, res) => { //done
+app.delete("/products/delete/:name", async (req, res) => { //done
     try {
-        const product = await Product.findOneAndDelete(req.body.id);
+        const product = await Product.findOneAndDelete({
+            name: req.params.name,
+        });
         if (!product) throw new Error("product not found");
         res.json(product).status(200);
     }

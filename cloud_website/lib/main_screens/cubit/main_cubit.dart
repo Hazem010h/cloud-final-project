@@ -157,9 +157,9 @@ class MainCubit extends Cubit<MainStates>{
 
   deleteProduct(index){
     DioHelper.deleteData(
-        url: 'products/delete',
+        url: 'products/delete/${model[index]['name']}',
         data: {
-          'id':model[index]['_id'],
+
         }
     ).then((value){
       print(value.data);

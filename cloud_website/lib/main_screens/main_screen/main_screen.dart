@@ -57,7 +57,7 @@ class MainScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        '${MainCubit.get(context).model[index]['_id']}',
+                        '${MainCubit.get(context).model[index]['name']}',
                         style: const TextStyle(
                           fontWeight: FontWeight.w900
                         ),
