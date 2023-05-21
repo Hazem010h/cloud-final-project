@@ -40,7 +40,7 @@ class MainScreen extends StatelessWidget {
   Widget buildGrid(context,index) {
     return InkWell(
       onTap: (){
-
+        print(MainCubit.get(context).model[index]['_id']);
       },
       child: Padding(
         padding: const EdgeInsets.all(20.0),
@@ -57,7 +57,7 @@ class MainScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        '${MainCubit.get(context).model[index]['name']}',
+                        '${MainCubit.get(context).model[index]['_id']}',
                         style: const TextStyle(
                           fontWeight: FontWeight.w900
                         ),
@@ -78,9 +78,19 @@ class MainScreen extends StatelessWidget {
                           const Spacer(),
                           Row(
                             children: [
+                              if(MainCubit.get(context).userModel!.admin!)
+                                IconButton(
+                                  onPressed: (){
+                                    MainCubit.get(context).deleteProduct(index);
+                                  },
+                                  icon: const Icon(
+                                    Icons.delete,
+                                    color: Colors.red,
+                                  )
+                              ),
                               IconButton(
                                   onPressed: (){
-
+                                    MainCubit.get(context).addToCart(index);
                                   },
                                   icon: const Icon(
                                     Icons.add_shopping_cart_outlined

@@ -26,12 +26,17 @@ class MainCubit extends Cubit<MainStates>{
     const SettingScreen(),
   ];
 
+  List cart=[];
   getUserData(){
+    cart=[];
     emit(GetUserDataLoadingState());
     DioHelper.getData(
       url: 'accounts/get/$uId',
     ).then((value){
       userModel=UserModel.fromJson(value.data);
+      value.data['cart'].forEach((element){
+        cart.add(element);
+      });
       emit(GetUserDataSuccessState());
     }).catchError((error){
     });
@@ -41,6 +46,10 @@ class MainCubit extends Cubit<MainStates>{
 
   navigation(index){
     currentIndex=index;
+    if(index==1){
+      getUserData();
+      emit(ChangeNavigationState());
+    }
     emit(ChangeNavigationState());
   }
 
@@ -85,6 +94,7 @@ class MainCubit extends Cubit<MainStates>{
   List model=[];
   ProductModel ? productModel;
   getProducts(){
+    model=[];
     DioHelper.getData(
       url: 'products/get',
     ).then((value){
@@ -97,8 +107,71 @@ class MainCubit extends Cubit<MainStates>{
     });
   }
 
+  addToCart(index){
+    DioHelper.postData(
+        url: 'accounts/addtocart',
+        data: {
+          'name':model[index]['name'],
+          'quantity':model[index]['quantity'],
+          'description':model[index]['description'],
+          'price':model[index]['price'],
+          'id':uId,
+        }
+    ).then((value){
+      emit(AddedToCartSuccessState());
+    });
+  }
+
+  removeFromCart(index){
+    DioHelper.postData(
+        url: 'accounts/removefromcart',
+        data: {
+          'userId':uId,
+          'productId':cart[index]['_id'],
+        }
+    ).then((value){
+      getUserData();
+      emit(RemovedFromCartSuccessState());
+    });
+  }
+
+  addProduct({
+    required String name,
+    required String quantity,
+    required String price,
+    required String desc,
+}){
+    DioHelper.postData(
+        url: 'products/add',
+        data: {
+          'name':name,
+          'quantity':quantity,
+          'description':desc,
+          'price':price,
+        }
+    ).then((value){
+      getProducts();
+      emit(ProductAddedSuccessState());
+    });
+  }
+
+  deleteProduct(index){
+    DioHelper.deleteData(
+        url: 'products/delete',
+        data: {
+          'id':model[index]['_id'],
+        }
+    ).then((value){
+      print(value.data);
+      getProducts();
+      emit(ProductDeletedSuccessState());
+    });
+  }
+
   logout({required context}){
     CacheHelper.removeKey(key: 'uId').then((value){
+      userModel=null;
+      currentIndex=0;
       emit(LogoutSuccessState());
       navigateToFinish(
           context: context,

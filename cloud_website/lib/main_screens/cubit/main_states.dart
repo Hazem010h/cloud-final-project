@@ -22,3 +22,11 @@ class GetProductSuccessState extends MainStates{}
 
 class GetProductErrorState extends MainStates{}
 
+class AddedToCartSuccessState extends MainStates{}
+
+class RemovedFromCartSuccessState extends MainStates{}
+
+class ProductAddedSuccessState extends MainStates{}
+
+class ProductDeletedSuccessState extends MainStates{}
+

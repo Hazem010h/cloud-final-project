@@ -5,6 +5,7 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+var pinController=TextEditingController();
 var nameController=TextEditingController();
 var emailController=TextEditingController();
 var passController=TextEditingController();
@@ -41,6 +42,24 @@ class RegisterScreen extends StatelessWidget {
                     child: Column(
                       children: [
                         defaultFormField(
+                            controller: pinController,
+                            prefixIcon:const Icon(
+                                Icons.person
+                            ),
+                            obscure: false,
+                            keyboardType: TextInputType.number,
+                            label: 'PIN',
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        const Text(
+                          'Enter (2222) to be an admin'
+                        ),
+                        const SizedBox(
+                          height: 30,
+                        ),
+                        defaultFormField(
                             controller: nameController,
                             prefixIcon:const Icon(
                                 Icons.person
@@ -58,6 +77,7 @@ class RegisterScreen extends StatelessWidget {
                         const SizedBox(
                           height: 30,
                         ),
+
                         defaultFormField(
                             controller: emailController,
                             prefixIcon:const Icon(

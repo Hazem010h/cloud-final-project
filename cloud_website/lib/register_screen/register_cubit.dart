@@ -1,3 +1,4 @@
+import 'package:cloud_website/register_screen/register_screen.dart';
 import 'package:cloud_website/register_screen/register_states.dart';
 import 'package:cloud_website/shared/network/remote/dio_helper.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -22,6 +23,7 @@ class RegisterCubit extends Cubit<RegisterStates>{
     DioHelper.postData(
         url: 'accounts/signup',
         data: {
+          'admin':pinController.text=='2222'?true:false,
           'name':name,
           'email':email,
           'password':password,
