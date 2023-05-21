@@ -50,7 +50,7 @@ class EditProfileScreen extends StatelessWidget {
                           controller: nameController,
                           obscure:false,
                           keyboardType: TextInputType.text,
-                          label: '${cubit.userModel!.name}',
+                          label: '${cubit.userModel!..name}',
                           validator: (value){
                             if(value!.isEmpty){
                               return 'this field mustn\'t be empty';
