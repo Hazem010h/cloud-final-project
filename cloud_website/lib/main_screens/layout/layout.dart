@@ -1,5 +1,6 @@
 import 'package:cloud_website/main_screens/cubit/main_cubit.dart';
 import 'package:cloud_website/main_screens/cubit/main_states.dart';
+import 'package:cloud_website/main_screens/filter_screen/filter_screen.dart';
 import 'package:cloud_website/main_screens/search_screen/search_screen.dart';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
@@ -47,7 +48,18 @@ class _LayoutScreenState extends State<LayoutScreen> {
                   icon: const Icon(
                     Icons.search,
                   ),
-                )
+                ),
+                IconButton(
+                   onPressed: () {
+                     navigateTo(
+                         context: context,
+                         screen: const FilterScreen()
+                     );
+                   },
+                  icon: const Icon(
+                    Icons.filter_list_outlined,
+                  ),
+                ),
               ],
             ),
             body: cubit.screens[cubit.currentIndex],

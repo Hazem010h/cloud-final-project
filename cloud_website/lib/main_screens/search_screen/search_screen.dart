@@ -36,16 +36,16 @@ class SearchScreen extends StatelessWidget {
             padding: const EdgeInsets.all(20.0),
             child: Column(
               children: [
-                defaultFormField(
-                    controller: searchController,
-                    obscure: false,
-                    keyboardType: TextInputType.text,
-                    label: 'Search here',
-                  onChange: (value){
-                      searchController.text=value!;
-                      MainCubit.get(context).searchProduct(name: value);
-                  }
-                ),
+               defaultFormField(
+                   controller: searchController,
+                   obscure: false,
+                   keyboardType: TextInputType.text,
+                   label: 'search here',
+                 onChange: (value){
+                      MainCubit.get(context).searchProduct(name:value!);
+                      return null;
+                 }
+               ),
                 const SizedBox(
                   height: 20,
                 ),

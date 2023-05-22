@@ -4,6 +4,14 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../shared/components/components.dart';
+
+var nameController=TextEditingController();
+var quantityController=TextEditingController();
+var priceController=TextEditingController();
+var descController=TextEditingController();
+
+
 class MainScreen extends StatelessWidget {
   const MainScreen({Key? key}) : super(key: key);
 
@@ -40,7 +48,7 @@ class MainScreen extends StatelessWidget {
   Widget buildGrid(context,index) {
     return InkWell(
       onTap: (){
-        print(MainCubit.get(context).model[index]['_id']);
+
       },
       child: Padding(
         padding: const EdgeInsets.all(20.0),
@@ -86,6 +94,118 @@ class MainScreen extends StatelessWidget {
                                   icon: const Icon(
                                     Icons.delete,
                                     color: Colors.red,
+                                  )
+                              ),
+                              if(MainCubit.get(context).userModel!.admin!)
+                                IconButton(
+                                  onPressed: (){
+                                    showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                          return AlertDialog(
+                                            title: const Text('Update Product'),
+                                            content: SingleChildScrollView(
+                                              child: Column(
+                                                children: [
+                                                  defaultFormField(
+                                                      controller: nameController,
+                                                      obscure: false,
+                                                      keyboardType:TextInputType.number,
+                                                      label: '${MainCubit.get(context).model[index]['name']}',
+                                                      validator: (value){
+                                                        if(value!.isEmpty){
+                                                          return 'You Should add task';
+                                                        }
+                                                        return null;
+
+                                                      }
+                                                  ),
+                                                  const SizedBox(
+                                                    height: 10,
+                                                  ),
+                                                  defaultFormField(
+                                                      controller: quantityController,
+                                                      obscure: false,
+                                                      keyboardType:TextInputType.text,
+                                                      label: '${MainCubit.get(context).model[index]['quantity']}',
+                                                      validator: (value){
+                                                        if(value!.isEmpty){
+                                                          return 'You Should add task';
+                                                        }
+                                                        return null;
+
+                                                      }
+                                                  ),
+                                                  const SizedBox(
+                                                    height: 10,
+                                                  ),
+                                                  defaultFormField(
+                                                      controller: priceController,
+                                                      obscure: false,
+                                                      keyboardType:TextInputType.text,
+                                                      label: '${MainCubit.get(context).model[index]['price']}',
+                                                      validator: (value){
+                                                        if(value!.isEmpty){
+                                                          return 'You Should add task';
+                                                        }
+                                                        return null;
+
+                                                      }
+                                                  ),
+                                                  const SizedBox(
+                                                    height: 10,
+                                                  ),
+                                                  defaultFormField(
+                                                      controller: descController,
+                                                      obscure: false,
+                                                      keyboardType:TextInputType.text,
+                                                      label: '${MainCubit.get(context).model[index]['description']}',
+                                                      validator: (value){
+                                                        if(value!.isEmpty){
+                                                          return 'You Should add task';
+                                                        }
+                                                        return null;
+
+                                                      }
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            actions: [
+                                              TextButton(
+                                                  onPressed: (){
+                                                    MainCubit.get(context).updateProduct(
+                                                        name: nameController.text,
+                                                        quantity: quantityController.text,
+                                                        price: priceController.text,
+                                                        desc: descController.text,
+                                                      index: index
+                                                    );
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child: const Text(
+                                                      'Update'
+                                                  )
+                                              ),
+                                              TextButton(
+                                                  onPressed: (){
+                                                    nameController.clear();
+                                                    quantityController.clear();
+                                                    priceController.clear();
+                                                    descController.clear();
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child: const Text(
+                                                    'Cancel',
+                                                  )
+                                              ),
+                                            ],
+                                          );
+                                        });
+                                  },
+                                  icon: const Icon(
+                                      Icons.edit,
+                                      color: Colors.green
                                   )
                               ),
                               IconButton(

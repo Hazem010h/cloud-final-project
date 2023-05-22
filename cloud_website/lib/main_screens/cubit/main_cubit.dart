@@ -171,6 +171,27 @@ class MainCubit extends Cubit<MainStates>{
     });
   }
 
+  updateProduct({
+required String name,
+    required String quantity,
+    required String price,
+    required String desc,
+    required index,
+}){
+    DioHelper.putData(
+        url: 'products/update/${model[index]['name']}',
+        data: {
+          'name':name,
+          'quantity':quantity,
+          'description':desc,
+          'price':price,
+        }
+    ).then((value){
+      getProducts();
+      emit(UpdateProductSuccessState());
+    });
+  }
+
   deleteProduct(index){
     DioHelper.deleteData(
         url: 'products/delete/${model[index]['name']}',
@@ -180,6 +201,22 @@ class MainCubit extends Cubit<MainStates>{
     ).then((value){
       getProducts();
       emit(ProductDeletedSuccessState());
+    });
+  }
+
+  filterProduct({
+    required String min,
+    required String max,
+  }){
+    DioHelper.postData(
+        url: 'products/filter',
+        data: {
+          'min':min,
+          'max':max,
+        }
+    ).then((value){
+      searchModel=SearchModel.fromJson(value.data);
+      emit(SearchSuccessState());
     });
   }
 
