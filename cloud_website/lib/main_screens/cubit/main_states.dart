@@ -30,3 +30,10 @@ class ProductAddedSuccessState extends MainStates{}
 
 class ProductDeletedSuccessState extends MainStates{}
 
+class AccountDeletedSuccessState extends MainStates{}
+
+class SearchLoadingState extends MainStates{}
+
+class SearchSuccessState extends MainStates{}
+
+class SearchErrorState extends MainStates{}

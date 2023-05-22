@@ -4,6 +4,7 @@ import 'package:cloud_website/main_screens/cubit/main_states.dart';
 import 'package:cloud_website/main_screens/main_screen/main_screen.dart';
 import 'package:cloud_website/main_screens/setting_screen.dart';
 import 'package:cloud_website/models/product_model.dart';
+import 'package:cloud_website/models/search_model.dart';
 import 'package:cloud_website/models/user_model.dart';
 import 'package:cloud_website/shared/components/components.dart';
 import 'package:cloud_website/shared/components/constants.dart';
@@ -155,6 +156,21 @@ class MainCubit extends Cubit<MainStates>{
     });
   }
 
+  SearchModel ? searchModel;
+  searchProduct({
+    required String name,
+}){
+    DioHelper.postData(
+        url: 'products/search',
+      data: {
+          'name':name,
+      }
+    ).then((value){
+      searchModel=SearchModel.fromJson(value.data);
+      emit(SearchSuccessState());
+    });
+  }
+
   deleteProduct(index){
     DioHelper.deleteData(
         url: 'products/delete/${model[index]['name']}',
@@ -162,11 +178,25 @@ class MainCubit extends Cubit<MainStates>{
 
         }
     ).then((value){
-      print(value.data);
       getProducts();
       emit(ProductDeletedSuccessState());
     });
   }
+
+  deleteAccount({
+    required context,
+}){
+    DioHelper.deleteData(
+        url: 'accounts/delete/${userModel!.email}',
+        data: {
+        }
+    ).then((value){
+      userModel=null;
+      logout(context: context);
+      emit(AccountDeletedSuccessState());
+    });
+  }
+
 
   logout({required context}){
     CacheHelper.removeKey(key: 'uId').then((value){

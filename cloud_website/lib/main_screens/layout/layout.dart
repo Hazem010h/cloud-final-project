@@ -1,5 +1,6 @@
 import 'package:cloud_website/main_screens/cubit/main_cubit.dart';
 import 'package:cloud_website/main_screens/cubit/main_states.dart';
+import 'package:cloud_website/main_screens/search_screen/search_screen.dart';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -34,7 +35,21 @@ class _LayoutScreenState extends State<LayoutScreen> {
         return ConditionalBuilder(
           condition: cubit.userModel!=null,
           builder: (context)=>Scaffold(
-            appBar: AppBar(),
+            appBar: AppBar(
+              actions:  [
+                IconButton(
+                   onPressed: () {
+                     navigateTo(
+                         context: context,
+                         screen: const SearchScreen()
+                     );
+                   },
+                  icon: const Icon(
+                    Icons.search,
+                  ),
+                )
+              ],
+            ),
             body: cubit.screens[cubit.currentIndex],
             floatingActionButton: cubit.userModel!.admin==true?FloatingActionButton(
               onPressed: (){

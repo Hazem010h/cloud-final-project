@@ -133,6 +133,7 @@ class RegisterScreen extends StatelessWidget {
                                       email: emailController.text,
                                       password: passController.text,
                                   );
+                                  pinController.clear();
                                   nameController.clear();
                                   emailController.clear();
                                   passController.clear();

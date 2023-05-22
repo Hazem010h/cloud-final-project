@@ -69,9 +69,11 @@ app.put("/accounts/update/:email", async (req, res) => { //done
     }
 });
 
-app.delete("/accounts/delete", async (req, res) => { //done
+app.delete("/accounts/delete/:email", async (req, res) => { //done
     try {
-        const user = await User.findOneAndDelete(req.body.id);
+        const user = await User.findOneAndDelete({
+            email: req.params.email,
+        });
         if (!user) throw new Error("User not found");
         res.json(user).status(200);
     } catch (error) {
@@ -139,11 +141,11 @@ app.get("/products/get", async (req, res) => { //done
     }
 });
 
-app.get("/products/get/:name", async (req, res) => { //done
+app.post("/products/search", async (req, res) => { 
     try {
-        const product = await Product.findOne({ name: req.params.name});
-        if (!product) throw new Error("product not found");
-        res.json(product).status(200);
+        const products = await Product.find({name:{$regex:req.body.name,$options:'i'}});
+        if (!products) throw new Error("products not found");
+        res.json({message: "search success",products: products}).status(200);
     } catch (error) {
         res.json({ message: error.toString("ascii") }).status(500);
     }

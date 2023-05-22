@@ -93,6 +93,19 @@ class _SettingScreenState extends State<SettingScreen> {
                                 cubit.logout(context: context);
                               }
                           ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          defaultButton(
+                            backColor: Colors.red,
+                              width: MediaQuery.of(context).size.width*0.3,
+                              height: 30,
+                              label: 'Delete Account',
+                              function: (){
+                                cubit.deleteAccount(context: context);
+                              }
+                          ),
+
 
 
                         ],
