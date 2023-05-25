@@ -1,5 +1,7 @@
 version: '3.8'
+
 services:
+
   db:
     image: mongo:latest
     restart: always
@@ -9,14 +11,49 @@ services:
     ports:
       - 27017:27017
     volumes:
-      - mongo-data:/data/db
-  api:
-    build: ./api
+      - data:/data/db
+
+  # products-db:
+  #   image: mongo:latest
+  #   restart: always
+  #   environment:
+  #     MONGO_INITDB_ROOT_USERNAME: root
+  #     MONGO_INITDB_ROOT_PASSWORD: example
+  #   ports:
+  #     - 27028:27017
+  #   volumes:
+  #     - products-data:/data/db
+
+  users-api:
+    build: ./api/accounts-sub-api
+    restart: always
+    ports:
+      - 7700:7700
+    depends_on:
+      - db
+    # networks:
+    #   - api-network
+
+  products-api:
+    build: ./api/products-sub-api
+    restart: always
+    ports:
+      - 7555:7555
+    depends_on:
+      - db
+    # networks:
+    #   - api-network
+
+  master-api:
+    build: ./api/master-api
     restart: always
     ports:
       - 3000:3000
     depends_on:
-      - db
+      - users-api
+      - products-api
+    # networks:
+    #   - api-network
 #  website:
 #    build: cloud_website/.
 #    ports:
@@ -25,5 +62,9 @@ services:
 #      - api
 #    links:
 #      - api
+# networks:
+#   api-network:
+#     driver: bridge
+
 volumes:
-  mongo-data:
+  data:
