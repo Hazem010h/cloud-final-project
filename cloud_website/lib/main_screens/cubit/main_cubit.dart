@@ -220,6 +220,18 @@ required String name,
     });
   }
 
+  checkoutCart(){
+    DioHelper.postData(
+        url: 'accounts/checkout',
+        data: {
+          'email':userModel!.email,
+        }
+    ).then((value){
+      getUserData();
+      emit(CheckoutSuccessState());
+    });
+  }
+
   deleteAccount({
     required context,
 }){

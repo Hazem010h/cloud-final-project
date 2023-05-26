@@ -83,6 +83,18 @@ class MainScreen extends StatelessWidget {
                               fontWeight: FontWeight.bold
                             ),
                           ),
+                          const SizedBox(
+                            width: 50,
+                          ),
+                          Text(
+                            '${MainCubit.get(context).model[index]['description']}',
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                                color: Colors.grey,
+                                fontWeight: FontWeight.bold
+                            ),
+                          ),
                           const Spacer(),
                           Row(
                             children: [

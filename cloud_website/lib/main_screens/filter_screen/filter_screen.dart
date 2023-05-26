@@ -45,7 +45,7 @@ class FilterScreen extends StatelessWidget {
                       child: defaultFormField(
                           controller: minController,
                           obscure: false,
-                          keyboardType: TextInputType.text,
+                          keyboardType: TextInputType.number,
                           label: 'Enter Min value',
 
                       ),
@@ -57,7 +57,7 @@ class FilterScreen extends StatelessWidget {
                       child: defaultFormField(
                           controller: maxController,
                           obscure: false,
-                          keyboardType: TextInputType.text,
+                          keyboardType: TextInputType.number,
                           label: 'Enter max value',
                           onSubmit: (value){
                             MainCubit.get(context).filterProduct(min:minController.text,max:maxController.text);
@@ -66,7 +66,10 @@ class FilterScreen extends StatelessWidget {
                     ),
                     IconButton(
                         onPressed: (){
-                          MainCubit.get(context).filterProduct(min:minController.text,max:maxController.text);
+                          if(minController.text.isEmpty){
+                            minController.text=0.toString();
+                            MainCubit.get(context).filterProduct(min:minController.text,max:maxController.text);
+                          }
                         },
                         icon: const Icon(
                           Icons.search,

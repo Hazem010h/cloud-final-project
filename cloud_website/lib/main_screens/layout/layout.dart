@@ -8,10 +8,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../shared/components/components.dart';
 
-var nameController=TextEditingController();
-var quantityController=TextEditingController();
-var priceController=TextEditingController();
-var descController=TextEditingController();
+var nameController = TextEditingController();
+var quantityController = TextEditingController();
+var priceController = TextEditingController();
+var descController = TextEditingController();
 
 class LayoutScreen extends StatefulWidget {
   const LayoutScreen({Key? key}) : super(key: key);
@@ -27,35 +27,30 @@ class _LayoutScreenState extends State<LayoutScreen> {
     super.initState();
     MainCubit.get(context).getUserData();
   }
+
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<MainCubit,MainStates>(
-      listener: (context,state){},
-      builder: (context,state){
-        var cubit=MainCubit.get(context);
+    return BlocConsumer<MainCubit, MainStates>(
+      listener: (context, state) {},
+      builder: (context, state) {
+        var cubit = MainCubit.get(context);
         return ConditionalBuilder(
-          condition: cubit.userModel!=null,
-          builder: (context)=>Scaffold(
+          condition: cubit.userModel != null,
+          builder: (context) => Scaffold(
             appBar: AppBar(
-              actions:  [
+              actions: [
                 IconButton(
-                   onPressed: () {
-                     navigateTo(
-                         context: context,
-                         screen: const SearchScreen()
-                     );
-                   },
+                  onPressed: () {
+                    navigateTo(context: context, screen: const SearchScreen());
+                  },
                   icon: const Icon(
                     Icons.search,
                   ),
                 ),
                 IconButton(
-                   onPressed: () {
-                     navigateTo(
-                         context: context,
-                         screen: const FilterScreen()
-                     );
-                   },
+                  onPressed: () {
+                    navigateTo(context: context, screen: const FilterScreen());
+                  },
                   icon: const Icon(
                     Icons.filter_list_outlined,
                   ),
@@ -63,122 +58,120 @@ class _LayoutScreenState extends State<LayoutScreen> {
               ],
             ),
             body: cubit.screens[cubit.currentIndex],
-            floatingActionButton: cubit.userModel!.admin==true?FloatingActionButton(
-              onPressed: (){
-                showDialog(
-                    context: context,
-                    builder: (context) {
-                      return AlertDialog(
-                        title: const Text('Add Task'),
-                        content: SingleChildScrollView(
-                          child: Column(
-                            children: [
-                              defaultFormField(
-                                  controller: nameController,
-                                  obscure: false,
-                                  keyboardType:TextInputType.number,
-                                  label: 'Name',
-                                  validator: (value){
-                                    if(value!.isEmpty){
-                                      return 'You Should add any thing';
-                                    }
-                                    return null;
-
-                                  }
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              defaultFormField(
-                                  controller: quantityController,
-                                  obscure: false,
-                                  keyboardType:TextInputType.number,
-                                  label: 'quantity',
-                                  validator: (value){
-                                    if(value!.isEmpty){
-                                      return 'You Should add any thing';
-                                    }
-                                    return null;
-
-                                  }
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              defaultFormField(
-                                  controller: priceController,
-                                  obscure: false,
-                                  keyboardType:TextInputType.number,
-                                  label: 'price',
-                                  validator: (value){
-                                    if(value!.isEmpty){
-                                      return 'You Should add any thing';
-                                    }
-                                    return null;
-
-                                  }
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              defaultFormField(
-                                  controller: descController,
-                                  obscure: false,
-                                  keyboardType:TextInputType.text,
-                                  label: 'description',
-                                  validator: (value){
-                                    if(value!.isEmpty){
-                                      return 'You Should add any thing';
-                                    }
-                                    return null;
-
-                                  }
-                              ),
-
-                            ],
-                          ),
-                        ),
-                        actions: [
-                          TextButton(
-                              onPressed: (){
-                                cubit.addProduct(
-                                  name:nameController.text,
-                                  quantity: quantityController.text,
-                                  price: priceController.text,
-                                  desc: descController.text,
+            floatingActionButton: cubit.currentIndex == 1 &&
+                    cubit.cart.isNotEmpty
+                ? FloatingActionButton(
+                    onPressed: () {
+                      cubit.checkoutCart();
+                    },
+                    tooltip: 'Checkout',
+                    child: const Icon(Icons.shopping_cart_checkout_rounded),
+                  )
+                : cubit.currentIndex == 0 && cubit.userModel!.admin == true
+                    ? FloatingActionButton(
+                        onPressed: () {
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  title: const Text('Add Task'),
+                                  content: SingleChildScrollView(
+                                    child: Column(
+                                      children: [
+                                        defaultFormField(
+                                            controller: nameController,
+                                            obscure: false,
+                                            keyboardType: TextInputType.number,
+                                            label: 'Name',
+                                            validator: (value) {
+                                              if (value!.isEmpty) {
+                                                return 'You Should add any thing';
+                                              }
+                                              return null;
+                                            }),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        defaultFormField(
+                                            controller: quantityController,
+                                            obscure: false,
+                                            keyboardType: TextInputType.number,
+                                            label: 'quantity',
+                                            validator: (value) {
+                                              if (value!.isEmpty) {
+                                                return 'You Should add any thing';
+                                              }
+                                              return null;
+                                            }),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        defaultFormField(
+                                            controller: priceController,
+                                            obscure: false,
+                                            keyboardType: TextInputType.number,
+                                            label: 'price',
+                                            validator: (value) {
+                                              if (value!.isEmpty) {
+                                                return 'You Should add any thing';
+                                              }
+                                              return null;
+                                            }),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        defaultFormField(
+                                            controller: descController,
+                                            obscure: false,
+                                            keyboardType: TextInputType.text,
+                                            label: 'description',
+                                            validator: (value) {
+                                              if (value!.isEmpty) {
+                                                return 'You Should add any thing';
+                                              }
+                                              return null;
+                                            }),
+                                      ],
+                                    ),
+                                  ),
+                                  actions: [
+                                    TextButton(
+                                        onPressed: () {
+                                          cubit.addProduct(
+                                            name: nameController.text,
+                                            quantity: quantityController.text,
+                                            price: priceController.text,
+                                            desc: descController.text,
+                                          );
+                                          nameController.clear();
+                                          quantityController.clear();
+                                          priceController.clear();
+                                          descController.clear();
+                                          Navigator.pop(context);
+                                        },
+                                        child: const Text('Add')),
+                                    TextButton(
+                                        onPressed: () {
+                                          nameController.clear();
+                                          quantityController.clear();
+                                          priceController.clear();
+                                          descController.clear();
+                                          Navigator.pop(context);
+                                        },
+                                        child: const Text(
+                                          'Cancel',
+                                        )),
+                                  ],
                                 );
-                                nameController.clear();
-                                quantityController.clear();
-                                priceController.clear();
-                                descController.clear();
-                                Navigator.pop(context);
-                              },
-                              child: const Text(
-                                  'Add'
-                              )
-                          ),
-                          TextButton(
-                              onPressed: (){
-                                nameController.clear();
-                                quantityController.clear();
-                                priceController.clear();
-                                descController.clear();
-                                Navigator.pop(context);
-                              },
-                              child: const Text(
-                                'Cancel',
-                              )
-                          ),
-                        ],
-                      );
-                    });
-              },
-              tooltip: 'Add',
-              child: const Icon(Icons.add),
-            ):Container(),
+                              });
+                        },
+                        tooltip: 'Add',
+                        child: const Icon(Icons.add),
+                      )
+                    : Container(),
             bottomNavigationBar: BottomNavigationBar(
               currentIndex: cubit.currentIndex,
-              onTap: (index){
+              onTap: (index) {
                 cubit.navigation(index);
               },
               items: const [
@@ -197,7 +190,7 @@ class _LayoutScreenState extends State<LayoutScreen> {
               ],
             ),
           ),
-          fallback: (context)=>const Scaffold(),
+          fallback: (context) => const Scaffold(),
         );
       },
     );

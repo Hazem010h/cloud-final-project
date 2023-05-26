@@ -119,15 +119,14 @@ app.post("/accounts/removefromcart", async (req, res) => { //done
     }
 });
 
-//checkout cart
 app.post("/accounts/checkout", async (req, res) => {
     try{
-        const {userId}=req.body;
-        const user=await User.findOne({_id:userId});
+        const {email}=req.body;
+        const user=await User.findOne({email:email});
         if (!user) throw new Error("User not found");
         user.cart=[];
         await User.findOneAndUpdate(
-            { _id: userId},
+            { email: email},
             user,
             { new: true },
         );
