@@ -4,12 +4,15 @@ services:
 
   db:
     image: mongo:latest
+    container_name: db
     restart: always
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
     ports:
       - 27017:27017
+    networks:
+      - db-network
     volumes:
       - data:/data/db
 
@@ -26,45 +29,58 @@ services:
 
   users-api:
     build: ./api/accounts-sub-api
+    container_name: users-api
     restart: always
     ports:
       - 7700:7700
     depends_on:
       - db
-    # networks:
-    #   - api-network
+    networks:
+      - api-network
+      - db-network
 
   products-api:
     build: ./api/products-sub-api
+    container_name: products-api
     restart: always
     ports:
       - 7555:7555
     depends_on:
       - db
-    # networks:
-    #   - api-network
+    networks:
+      - api-network
+      - db-network
 
   master-api:
     build: ./api/master-api
+    container_name: master-api
     restart: always
     ports:
       - 3000:3000
     depends_on:
       - users-api
       - products-api
-    # networks:
-    #   - api-network
-#  website:
-#    build: cloud_website/.
-#    ports:
-#      - 4444:80
-#    depends_on:
-#      - api
-#    links:
-#      - api
-# networks:
-#   api-network:
-#     driver: bridge
+    networks:
+      - api-network
+      - master-network
+
+  website:
+    build: cloud_website/.
+    container_name: website
+    ports:
+      - 4444:80
+    depends_on:
+      - master-api
+    networks:
+      - master-network
+
+networks:
+  db-network:
+    driver: bridge
+  api-network:
+    driver: bridge
+  master-network:
+    driver: bridge
 
 volumes:
   data:
