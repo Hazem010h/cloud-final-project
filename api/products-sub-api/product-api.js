@@ -11,7 +11,7 @@ const post = 7555;
 app.use(
     express.json(),
     cors({
-        origin: "*",
+        origin: "http://localhost:3000",
         methods: ["GET", "POST", "DELETE", "UPDATE", "PUT", "PATCH"],
         credentials:true,
         accesscontrolalloworigin: "*",
@@ -23,8 +23,8 @@ app.listen(post, () => {
 
 app.post("/products/add", async (req, res) => { //done
     try {
-        const { name, quantity, price,description } = req.body;
-        const product = new Product({ name, quantity, price,description });
+        const { name, quantity, price,description, image } = req.body;
+        const product = new Product({ name, quantity, price,description, image });
         if (!product) throw new Error("add product failed");
         await product.save();
         res.json({product:product,message:"add product success"}).status(200);

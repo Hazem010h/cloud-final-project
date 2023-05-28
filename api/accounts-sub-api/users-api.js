@@ -12,7 +12,7 @@ const post = 7700;
 app.use(
     express.json(),
     cors({
-        origin: "*",
+        origin: "http://localhost:3000",
         methods: ["GET", "POST", "DELETE", "UPDATE", "PUT", "PATCH"],
         credentials:true,
         accesscontrolalloworigin: "*",
@@ -83,8 +83,8 @@ app.delete("/accounts/delete/:email", async (req, res) => { //done
 
 app.post("/accounts/addtocart", async (req, res) => { //done
     try{
-        const { name, quantity, price,description, id } = req.body;
-        const product = new Product({ name, quantity, price,description });
+        const { name, quantity, price,description,image, id } = req.body;
+        const product = new Product({ name, quantity, price,description, image });
         if (!product) throw new Error("add product failed");
         const user=await User.findOneAndUpdate(
             { _id: id},
