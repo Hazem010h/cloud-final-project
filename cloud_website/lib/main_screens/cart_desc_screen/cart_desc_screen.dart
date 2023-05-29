@@ -1,6 +1,5 @@
 import 'package:cloud_website/main_screens/cubit/main_cubit.dart';
 import 'package:cloud_website/main_screens/cubit/main_states.dart';
-import 'package:cloud_website/shared/components/components.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -71,18 +70,6 @@ class CartDescScreen extends StatelessWidget {
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),
-                  ),
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                Expanded(
-                  flex: 4,
-                  child:defaultButton(
-                      label: 'Remove From Cart',
-                      function: (){
-                        MainCubit.get(context).removeFromCart(index);
-                      }
                   ),
                 ),
               ],
