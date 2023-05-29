@@ -30,6 +30,7 @@ class MainCubit extends Cubit<MainStates>{
   List cart=[];
   getUserData(){
     cart=[];
+    total=0;
     emit(GetUserDataLoadingState());
     DioHelper.getData(
       url: 'accounts/get/$uId',
@@ -39,8 +40,17 @@ class MainCubit extends Cubit<MainStates>{
         cart.add(element);
       });
       emit(GetUserDataSuccessState());
+      sum();
     }).catchError((error){
     });
+  }
+  double total=0;
+  sum(){
+    total=0;
+    for (var element in cart) {
+      total+=element['price'];
+    }
+    return total;
   }
 
   int currentIndex=0;
@@ -103,7 +113,8 @@ class MainCubit extends Cubit<MainStates>{
         model.add(element);
         productModel=ProductModel.fromJson(element);
       });
-
+      getUserData();
+      getUserData();
       emit(GetProductSuccessState());
     });
   }
@@ -114,12 +125,15 @@ class MainCubit extends Cubit<MainStates>{
         data: {
           'name':model[index]['name'],
           'quantity':model[index]['quantity'],
+          'image':model[index]['image'],
           'description':model[index]['description'],
           'price':model[index]['price'],
           'id':uId,
         }
     ).then((value){
       emit(AddedToCartSuccessState());
+      getUserData();
+      getUserData();
     });
   }
 
@@ -132,6 +146,7 @@ class MainCubit extends Cubit<MainStates>{
         }
     ).then((value){
       getUserData();
+      getUserData();
       emit(RemovedFromCartSuccessState());
     });
   }
@@ -140,6 +155,7 @@ class MainCubit extends Cubit<MainStates>{
     required String name,
     required String quantity,
     required String price,
+    required String image,
     required String desc,
 }){
     DioHelper.postData(
@@ -147,6 +163,7 @@ class MainCubit extends Cubit<MainStates>{
         data: {
           'name':name,
           'quantity':quantity,
+          'image':image,
           'description':desc,
           'price':price,
         }
@@ -173,6 +190,7 @@ class MainCubit extends Cubit<MainStates>{
 
   updateProduct({
 required String name,
+    required String image,
     required String quantity,
     required String price,
     required String desc,
@@ -182,6 +200,7 @@ required String name,
         url: 'products/update/${model[index]['name']}',
         data: {
           'name':name,
+          'image':image,
           'quantity':quantity,
           'description':desc,
           'price':price,

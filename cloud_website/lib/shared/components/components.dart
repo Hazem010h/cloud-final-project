@@ -35,7 +35,7 @@ Widget defaultButton({
 }
 Future navigateTo({
   required BuildContext context,
-  required Widget screen
+  required Widget screen,
 })=>Navigator.push(context, MaterialPageRoute(
   builder: (context)=>screen,
 ));

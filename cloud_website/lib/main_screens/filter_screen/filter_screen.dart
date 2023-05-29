@@ -60,7 +60,12 @@ class FilterScreen extends StatelessWidget {
                           keyboardType: TextInputType.number,
                           label: 'Enter max value',
                           onSubmit: (value){
-                            MainCubit.get(context).filterProduct(min:minController.text,max:maxController.text);
+                            if(minController.text.isEmpty){
+                              minController.text=0.toString();
+                              MainCubit.get(context).filterProduct(min:minController.text,max:maxController.text);
+                            }else if(minController.text.isNotEmpty){
+                              MainCubit.get(context).filterProduct(min:minController.text,max:maxController.text);
+                            }
                           }
                       ),
                     ),
@@ -68,6 +73,8 @@ class FilterScreen extends StatelessWidget {
                         onPressed: (){
                           if(minController.text.isEmpty){
                             minController.text=0.toString();
+                            MainCubit.get(context).filterProduct(min:minController.text,max:maxController.text);
+                          }else if(minController.text.isNotEmpty){
                             MainCubit.get(context).filterProduct(min:minController.text,max:maxController.text);
                           }
                         },

@@ -9,6 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../shared/components/components.dart';
 
 var nameController = TextEditingController();
+var imageController = TextEditingController();
 var quantityController = TextEditingController();
 var priceController = TextEditingController();
 var descController = TextEditingController();
@@ -62,7 +63,28 @@ class _LayoutScreenState extends State<LayoutScreen> {
                     cubit.cart.isNotEmpty
                 ? FloatingActionButton(
                     onPressed: () {
-                      cubit.checkoutCart();
+                      showDialog(
+                          context: context,
+                          builder: (context)=>AlertDialog(
+                            title:  Text('Your total is ${MainCubit.get(context).total}'),
+                            content: const Text('Do you want to checkout?'),
+                            actions: [
+                              TextButton(
+                                onPressed: (){
+                                  Navigator.pop(context);
+                                },
+                                child: const Text('No'),
+                              ),
+                              TextButton(
+                                onPressed: (){
+                                  Navigator.pop(context);
+                                  cubit.checkoutCart();
+                                },
+                                child: const Text('Yes'),
+                              ),
+                            ],
+                          )
+                      );
                     },
                     tooltip: 'Checkout',
                     child: const Icon(Icons.shopping_cart_checkout_rounded),
@@ -74,17 +96,31 @@ class _LayoutScreenState extends State<LayoutScreen> {
                               context: context,
                               builder: (context) {
                                 return AlertDialog(
-                                  title: const Text('Add Task'),
+                                  title: const Text('Add Product'),
                                   content: SingleChildScrollView(
                                     child: Column(
                                       children: [
                                         defaultFormField(
                                             controller: nameController,
                                             obscure: false,
-                                            keyboardType: TextInputType.number,
+                                            keyboardType: TextInputType.text,
                                             label: 'Name',
                                             validator: (value) {
-                                              if (value!.isEmpty) {
+                                              if (value!.isNotEmpty) {
+                                                return 'You Should add any thing';
+                                              }
+                                              return null;
+                                            }),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        defaultFormField(
+                                            controller: imageController,
+                                            obscure: false,
+                                            keyboardType: TextInputType.text,
+                                            label: 'imageUrl',
+                                            validator: (value) {
+                                              if (value!.isNotEmpty) {
                                                 return 'You Should add any thing';
                                               }
                                               return null;
@@ -98,7 +134,7 @@ class _LayoutScreenState extends State<LayoutScreen> {
                                             keyboardType: TextInputType.number,
                                             label: 'quantity',
                                             validator: (value) {
-                                              if (value!.isEmpty) {
+                                              if (value!.isNotEmpty) {
                                                 return 'You Should add any thing';
                                               }
                                               return null;
@@ -106,13 +142,14 @@ class _LayoutScreenState extends State<LayoutScreen> {
                                         const SizedBox(
                                           height: 10,
                                         ),
+
                                         defaultFormField(
                                             controller: priceController,
                                             obscure: false,
                                             keyboardType: TextInputType.number,
                                             label: 'price',
                                             validator: (value) {
-                                              if (value!.isEmpty) {
+                                              if (value!.isNotEmpty) {
                                                 return 'You Should add any thing';
                                               }
                                               return null;
@@ -126,7 +163,7 @@ class _LayoutScreenState extends State<LayoutScreen> {
                                             keyboardType: TextInputType.text,
                                             label: 'description',
                                             validator: (value) {
-                                              if (value!.isEmpty) {
+                                              if (value!.isNotEmpty) {
                                                 return 'You Should add any thing';
                                               }
                                               return null;
@@ -137,22 +174,27 @@ class _LayoutScreenState extends State<LayoutScreen> {
                                   actions: [
                                     TextButton(
                                         onPressed: () {
-                                          cubit.addProduct(
-                                            name: nameController.text,
-                                            quantity: quantityController.text,
-                                            price: priceController.text,
-                                            desc: descController.text,
-                                          );
-                                          nameController.clear();
-                                          quantityController.clear();
-                                          priceController.clear();
-                                          descController.clear();
-                                          Navigator.pop(context);
+                                          if(nameController.text.isNotEmpty&&imageController.text.isNotEmpty&&quantityController.text.isNotEmpty&&priceController.text.isNotEmpty&&descController.text.isNotEmpty){
+                                            cubit.addProduct(
+                                              name: nameController.text,
+                                              image: imageController.text,
+                                              quantity: quantityController.text,
+                                              price: priceController.text,
+                                              desc: descController.text,
+                                            );
+                                            nameController.clear();
+                                            quantityController.clear();
+                                            priceController.clear();
+                                            descController.clear();
+                                            Navigator.pop(context);
+                                          }
+
                                         },
                                         child: const Text('Add')),
                                     TextButton(
                                         onPressed: () {
                                           nameController.clear();
+                                          imageController.clear();
                                           quantityController.clear();
                                           priceController.clear();
                                           descController.clear();
