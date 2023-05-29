@@ -30,7 +30,6 @@ class MainCubit extends Cubit<MainStates>{
   List cart=[];
   getUserData(){
     cart=[];
-    total=0;
     emit(GetUserDataLoadingState());
     DioHelper.getData(
       url: 'accounts/get/$uId',
@@ -40,17 +39,8 @@ class MainCubit extends Cubit<MainStates>{
         cart.add(element);
       });
       emit(GetUserDataSuccessState());
-      sum();
     }).catchError((error){
     });
-  }
-  double total=0;
-  sum(){
-    total=0;
-    for (var element in cart) {
-      total+=element['price'];
-    }
-    return total;
   }
 
   int currentIndex=0;
@@ -114,7 +104,6 @@ class MainCubit extends Cubit<MainStates>{
         productModel=ProductModel.fromJson(element);
       });
       getUserData();
-      getUserData();
       emit(GetProductSuccessState());
     });
   }
@@ -132,8 +121,6 @@ class MainCubit extends Cubit<MainStates>{
         }
     ).then((value){
       emit(AddedToCartSuccessState());
-      getUserData();
-      getUserData();
     });
   }
 
@@ -145,7 +132,6 @@ class MainCubit extends Cubit<MainStates>{
           'productId':cart[index]['_id'],
         }
     ).then((value){
-      getUserData();
       getUserData();
       emit(RemovedFromCartSuccessState());
     });

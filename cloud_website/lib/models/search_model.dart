@@ -19,6 +19,7 @@ class SearchModel {
 class Products {
   String? sId;
   String? name;
+  String? image;
   int? quantity;
   int? price;
   String? description;
@@ -28,6 +29,7 @@ class Products {
       {this.sId,
         this.name,
         this.quantity,
+        this.image,
         this.price,
         this.description,
         this.iV});
@@ -35,6 +37,7 @@ class Products {
   Products.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
     name = json['name'];
+    image=json['image'];
     quantity = json['quantity'];
     price = json['price'];
     description = json['description'];

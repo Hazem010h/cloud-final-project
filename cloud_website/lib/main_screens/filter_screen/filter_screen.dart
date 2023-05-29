@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../shared/components/components.dart';
+import '../search_desc_screen/search_desc.dart';
 
 var minController=TextEditingController();
 var maxController=TextEditingController();
@@ -93,7 +94,7 @@ class FilterScreen extends StatelessWidget {
                     child: ListView.separated(
                       itemBuilder: (context,index)=>InkWell(
                         onTap: (){
-
+                          navigateTo(context:context,screen: SearchDescScreen(index: index,));
                         },
                         child: Padding(
                           padding: const EdgeInsets.all(20.0),
@@ -101,57 +102,76 @@ class FilterScreen extends StatelessWidget {
                             color: Colors.white,
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                              child: Row(
                                 children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 10),
+                                  Expanded(
+                                    child: Container(
+                                      height: 120,
+                                      width: 120,
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(20),
+                                          image: DecorationImage(
+                                              image: NetworkImage('${MainCubit.get(context).searchModel!.products![index].image}'),
+                                              fit: BoxFit.cover
+                                          )
+                                      ),
+                                    )
+                                  ),
+                                  Expanded(
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        Text(
-                                          '${MainCubit.get(context).searchModel!.products![index].name}',
-                                          style: const TextStyle(
-                                              fontWeight: FontWeight.w900
-                                          ),
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                        Row(
-                                          children: [
-                                            Text(
-                                              '${MainCubit.get(context).searchModel!.products![index].price}',
-                                              maxLines: 1,
-                                              overflow: TextOverflow.ellipsis,
-                                              style: const TextStyle(
-                                                  color: Colors.red,
-                                                  fontWeight: FontWeight.bold
-                                              ),
-                                            ),
-                                            const Spacer(),
-                                            Row(
-                                              children: [
-                                                if(MainCubit.get(context).userModel!.admin!)
-                                                  IconButton(
-                                                      onPressed: (){
-                                                        MainCubit.get(context).deleteProduct(index);
-                                                      },
-                                                      icon: const Icon(
-                                                        Icons.delete,
-                                                        color: Colors.red,
-                                                      )
-                                                  ),
-                                                IconButton(
-                                                    onPressed: (){
-                                                      MainCubit.get(context).addToCart(index);
-                                                    },
-                                                    icon: const Icon(
-                                                        Icons.add_shopping_cart_outlined
-                                                    )
+                                        Padding(
+                                          padding: const EdgeInsets.only(left: 10),
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                '${MainCubit.get(context).searchModel!.products![index].name}',
+                                                style: const TextStyle(
+                                                    fontWeight: FontWeight.w900
                                                 ),
-                                              ],
-                                            ),
-                                          ],
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                              ),
+                                              Row(
+                                                children: [
+                                                  Text(
+                                                    '${MainCubit.get(context).searchModel!.products![index].price}',
+                                                    maxLines: 1,
+                                                    overflow: TextOverflow.ellipsis,
+                                                    style: const TextStyle(
+                                                        color: Colors.red,
+                                                        fontWeight: FontWeight.bold
+                                                    ),
+                                                  ),
+                                                  const Spacer(),
+                                                  Row(
+                                                    children: [
+                                                      if(MainCubit.get(context).userModel!.admin!)
+                                                        IconButton(
+                                                            onPressed: (){
+                                                              MainCubit.get(context).deleteProduct(index);
+                                                            },
+                                                            icon: const Icon(
+                                                              Icons.delete,
+                                                              color: Colors.red,
+                                                            )
+                                                        ),
+                                                      IconButton(
+                                                          onPressed: (){
+                                                            MainCubit.get(context).addToCart(index);
+                                                          },
+                                                          icon: const Icon(
+                                                              Icons.add_shopping_cart_outlined
+                                                          )
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                       ],
                                     ),

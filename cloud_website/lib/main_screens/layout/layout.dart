@@ -63,28 +63,7 @@ class _LayoutScreenState extends State<LayoutScreen> {
                     cubit.cart.isNotEmpty
                 ? FloatingActionButton(
                     onPressed: () {
-                      showDialog(
-                          context: context,
-                          builder: (context)=>AlertDialog(
-                            title:  Text('Your total is ${MainCubit.get(context).total}'),
-                            content: const Text('Do you want to checkout?'),
-                            actions: [
-                              TextButton(
-                                onPressed: (){
-                                  Navigator.pop(context);
-                                },
-                                child: const Text('No'),
-                              ),
-                              TextButton(
-                                onPressed: (){
-                                  Navigator.pop(context);
-                                  cubit.checkoutCart();
-                                },
-                                child: const Text('Yes'),
-                              ),
-                            ],
-                          )
-                      );
+                      cubit.checkoutCart();
                     },
                     tooltip: 'Checkout',
                     child: const Icon(Icons.shopping_cart_checkout_rounded),
