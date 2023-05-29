@@ -28,6 +28,18 @@ class MainCubit extends Cubit<MainStates>{
   ];
 
   List cart=[];
+
+  //sum of cart items
+  num sum=0;
+
+  getTotal(){
+    sum=0;
+    cart.forEach((element){
+      sum+=element['price'];
+    });
+    emit(GetTotalState());
+  }
+
   getUserData(){
     cart=[];
     emit(GetUserDataLoadingState());
@@ -38,6 +50,7 @@ class MainCubit extends Cubit<MainStates>{
       value.data['cart'].forEach((element){
         cart.add(element);
       });
+      getTotal();
       emit(GetUserDataSuccessState());
     }).catchError((error){
     });
@@ -49,6 +62,7 @@ class MainCubit extends Cubit<MainStates>{
     currentIndex=index;
     if(index==1){
       getUserData();
+      getTotal();
       emit(ChangeNavigationState());
     }
     emit(ChangeNavigationState());
@@ -120,6 +134,7 @@ class MainCubit extends Cubit<MainStates>{
           'id':uId,
         }
     ).then((value){
+      getTotal();
       emit(AddedToCartSuccessState());
     });
   }

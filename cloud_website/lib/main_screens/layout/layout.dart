@@ -162,6 +162,7 @@ class _LayoutScreenState extends State<LayoutScreen> {
                                               desc: descController.text,
                                             );
                                             nameController.clear();
+                                            imageController.clear();
                                             quantityController.clear();
                                             priceController.clear();
                                             descController.clear();
@@ -190,7 +191,70 @@ class _LayoutScreenState extends State<LayoutScreen> {
                         child: const Icon(Icons.add),
                       )
                     : Container(),
-            bottomNavigationBar: BottomNavigationBar(
+            bottomNavigationBar: cubit.currentIndex==1 ?
+            cubit.cart.isNotEmpty ? Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('Total price: ${cubit.sum}',style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),textAlign: TextAlign.center,),
+                const SizedBox(height: 10,),
+                BottomNavigationBar(
+                  currentIndex: cubit.currentIndex,
+                  onTap: (index) {
+                    cubit.navigation(index);
+                  },
+                  items: const [
+                    BottomNavigationBarItem(
+                      icon: Icon(Icons.home),
+                      label: 'Main',
+                    ),
+                    BottomNavigationBarItem(
+                      icon: Icon(Icons.shopping_cart),
+                      label: 'Cart',
+                    ),
+                    BottomNavigationBarItem(
+                      icon: Icon(Icons.settings),
+                      label: 'Setting',
+                    ),
+                  ],
+                ),
+              ],
+            )
+                :Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('Your Cart is Empty',style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),),
+                const SizedBox(height: 10,),
+                BottomNavigationBar(
+                  currentIndex: cubit.currentIndex,
+                  onTap: (index) {
+                    cubit.navigation(index);
+                  },
+                  items: const [
+                    BottomNavigationBarItem(
+                      icon: Icon(Icons.home),
+                      label: 'Main',
+                    ),
+                    BottomNavigationBarItem(
+                      icon: Icon(Icons.shopping_cart),
+                      label: 'Cart',
+                    ),
+                    BottomNavigationBarItem(
+                      icon: Icon(Icons.settings),
+                      label: 'Setting',
+                    ),
+                  ],
+                ),
+              ],
+            )
+                :BottomNavigationBar(
               currentIndex: cubit.currentIndex,
               onTap: (index) {
                 cubit.navigation(index);

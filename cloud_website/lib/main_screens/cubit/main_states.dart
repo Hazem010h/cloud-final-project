@@ -41,3 +41,5 @@ class SearchErrorState extends MainStates{}
 class UpdateProductSuccessState extends MainStates{}
 
 class CheckoutSuccessState extends MainStates{}
+
+class GetTotalState extends MainStates{}
