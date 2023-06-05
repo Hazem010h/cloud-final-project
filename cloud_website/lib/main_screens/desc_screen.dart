@@ -15,7 +15,12 @@ class DescScreen extends StatelessWidget {
       listener: (context,state){},
       builder: (context,state){
         return Scaffold(
-          appBar: AppBar(),
+          appBar: AppBar(
+            centerTitle: false,
+            title:  Text(
+              '${MainCubit.get(context).model[index]['name']}',
+            )
+          ),
           body: Center(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -36,9 +41,10 @@ class DescScreen extends StatelessWidget {
                     child: Column(
                       children: [
                         Text(
-                          'name :${MainCubit.get(context).model[index]['name']}',
+                          'name:${MainCubit.get(context).model[index]['name']}',
                           style: const TextStyle(
                             fontSize: 20,
+                            fontWeight: FontWeight.w500
                           ),
                         ),
                         const SizedBox(
@@ -68,7 +74,7 @@ class DescScreen extends StatelessWidget {
                     'Price:${MainCubit.get(context).model[index]['price']}',
                     textAlign: TextAlign.center,
                     style: const TextStyle(
-                      fontSize: 20,
+                      fontSize: 16,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -77,7 +83,7 @@ class DescScreen extends StatelessWidget {
                   width: 10,
                 ),
                 Expanded(
-                  flex: 4,
+                  flex: 3,
                   child:defaultButton(
                     label: 'AddToCart',
                     function: (){

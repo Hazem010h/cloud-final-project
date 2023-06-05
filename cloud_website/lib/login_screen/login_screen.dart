@@ -41,7 +41,7 @@ class LoginScreen extends StatelessWidget {
             key: formKey,
             child: Scaffold(
               appBar: AppBar(
-                centerTitle: true,
+                centerTitle: false,
                 title: const Text(
                     'Login'
                 ),
@@ -78,6 +78,16 @@ class LoginScreen extends StatelessWidget {
                             obscure:cubit.isVisible? false:true,
                             keyboardType: TextInputType.text,
                             label: 'Password',
+                            onSubmit: (value){
+                              if(formKey.currentState!.validate()){
+                                cubit.userLogin(
+                                  email: loginEmail.text,
+                                  password: loginPass.text,
+                                );
+                                loginPass.clear();
+                                loginEmail.clear();
+                              }
+                            },
                             suffixIcon:  IconButton(
                                 onPressed: (){
                                   cubit.changeVisibility();

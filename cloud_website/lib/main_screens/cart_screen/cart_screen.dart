@@ -31,9 +31,24 @@ class CartScreen extends StatelessWidget {
                       itemCount: cubit.cart.length
                   );
                 },
-                fallback: (context) => const Center(
-                  child: Text(
-                    'There is no Products in cart',
+                fallback: (context) =>  Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
+                      Icon(
+                        Icons.add_shopping_cart_rounded,
+                        size: 100,
+                        color: Colors.grey,
+                      ),
+                      Text(
+                        'There is no Products in cart',
+                        style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                          color: Colors.grey,
+                        ),
+                      ),
+                    ],
                   ),
                 )),
         );
@@ -55,11 +70,15 @@ class CartScreen extends StatelessWidget {
               children: [
                 Expanded(
                   flex: 1,
-                  child: Image(
-                    image: NetworkImage('${MainCubit.get(context).cart[index]['image']}'),
-                    fit: BoxFit.cover,
-                    width: MediaQuery.of(context).size.width*0.35,
-                    height: MediaQuery.of(context).size.height*0.35,
+                  child: SizedBox(
+                    height: 150,
+                    width: 150,
+                    child: Image(
+                      image: NetworkImage('${MainCubit.get(context).cart[index]['image']}'),
+                      fit: BoxFit.cover,
+                      width: MediaQuery.of(context).size.width*0.35,
+                      height: MediaQuery.of(context).size.height*0.35,
+                    ),
                   ),
                 ),
                 Expanded(
@@ -75,35 +94,39 @@ class CartScreen extends StatelessWidget {
                             Text(
                               '${MainCubit.get(context).cart[index]['name']}',
                               style: const TextStyle(
-                                  fontWeight: FontWeight.w900
+                                  fontWeight: FontWeight.w900,
+                                  fontSize: 20,
                               ),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                             ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            Text(
+                              'price:${MainCubit.get(context).cart[index]['price']}',
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                  color: Colors.red,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
                             Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text(
-                                  '${MainCubit.get(context).cart[index]['price']}',
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: const TextStyle(
+                                IconButton(
+                                    onPressed: (){
+                                      MainCubit.get(context).removeFromCart(index);
+                                    },
+                                    icon: const Icon(
+                                      Icons.delete,
                                       color: Colors.red,
-                                      fontWeight: FontWeight.bold
-                                  ),
-                                ),
-                                const Spacer(),
-                                Row(
-                                  children: [
-                                    IconButton(
-                                        onPressed: (){
-                                          MainCubit.get(context).removeFromCart(index);
-                                        },
-                                        icon: const Icon(
-                                            Icons.delete,
-                                          color: Colors.red,
-                                        )
-                                    ),
-                                  ],
+                                    )
                                 ),
                               ],
                             ),

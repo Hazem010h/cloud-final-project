@@ -39,6 +39,9 @@ class _LayoutScreenState extends State<LayoutScreen> {
           condition: cubit.userModel != null,
           builder: (context) => Scaffold(
             appBar: AppBar(
+              title: Text(
+                cubit.appBar[cubit.currentIndex],
+              ),
               actions: [
                 IconButton(
                   onPressed: () {
@@ -196,7 +199,7 @@ class _LayoutScreenState extends State<LayoutScreen> {
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text('Total price: ${cubit.sum}',style: TextStyle(
+                Text('Total price: ${cubit.sum}',style: const TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
                 ),textAlign: TextAlign.center,),
@@ -227,11 +230,6 @@ class _LayoutScreenState extends State<LayoutScreen> {
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text('Your Cart is Empty',style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),),
-                const SizedBox(height: 10,),
                 BottomNavigationBar(
                   currentIndex: cubit.currentIndex,
                   onTap: (index) {

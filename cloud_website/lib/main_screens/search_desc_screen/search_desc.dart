@@ -15,7 +15,12 @@ class SearchDescScreen extends StatelessWidget {
       listener: (context,state){},
       builder: (context,state){
         return Scaffold(
-          appBar: AppBar(),
+          appBar: AppBar(
+              centerTitle: false,
+              title:  Text(
+                '${MainCubit.get(context).searchModel!.products![index].name}',
+              )
+          ),
           body: Center(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -68,7 +73,7 @@ class SearchDescScreen extends StatelessWidget {
                     'Price:${MainCubit.get(context).searchModel!.products![index].price}',
                     textAlign: TextAlign.center,
                     style: const TextStyle(
-                      fontSize: 20,
+                      fontSize: 16,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -77,7 +82,7 @@ class SearchDescScreen extends StatelessWidget {
                   width: 10,
                 ),
                 Expanded(
-                  flex: 4,
+                  flex: 3,
                   child:defaultButton(
                       label: 'Add To Cart',
                       function: (){

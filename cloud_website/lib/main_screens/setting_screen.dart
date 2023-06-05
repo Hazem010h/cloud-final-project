@@ -40,7 +40,7 @@ class _SettingScreenState extends State<SettingScreen> {
                           Text(
                             'Hello: ${cubit.userModel!.name}',
                             style: const TextStyle(
-                                fontSize: 16,
+                                fontSize: 20,
                                 fontWeight: FontWeight.w900
                             ),
                           ),
@@ -50,7 +50,7 @@ class _SettingScreenState extends State<SettingScreen> {
                           Text(
                             'Email: ${cubit.userModel!.email}',
                             style: const TextStyle(
-                                fontSize: 16,
+                                fontSize: 20,
                                 fontWeight: FontWeight.w900
                             ),
                           ),
@@ -58,8 +58,7 @@ class _SettingScreenState extends State<SettingScreen> {
                             height: 20,
                           ),
                           defaultButton(
-                              width: MediaQuery.of(context).size.width*0.3,
-                              height: 30,
+                              width: MediaQuery.of(context).size.width*0.6,
                               label: 'Change password',
                               function: (){
                                 navigateTo(
@@ -72,8 +71,7 @@ class _SettingScreenState extends State<SettingScreen> {
                             height: 20,
                           ),
                           defaultButton(
-                              width: MediaQuery.of(context).size.width*0.3,
-                              height: 30,
+                              width: MediaQuery.of(context).size.width*0.6,
                               label: 'Edit profile',
                               function: (){
                                 navigateTo(
@@ -86,8 +84,7 @@ class _SettingScreenState extends State<SettingScreen> {
                             height: 20,
                           ),
                           defaultButton(
-                              width: MediaQuery.of(context).size.width*0.3,
-                              height: 30,
+                              width: MediaQuery.of(context).size.width*0.6,
                               label: 'Logout',
                               function: (){
                                 cubit.logout(context: context);
@@ -98,8 +95,7 @@ class _SettingScreenState extends State<SettingScreen> {
                           ),
                           defaultButton(
                             backColor: Colors.red,
-                              width: MediaQuery.of(context).size.width*0.3,
-                              height: 30,
+                              width: MediaQuery.of(context).size.width*0.6,
                               label: 'Delete Account',
                               function: (){
                                 cubit.deleteAccount(context: context);

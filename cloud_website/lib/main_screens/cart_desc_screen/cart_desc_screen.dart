@@ -14,7 +14,12 @@ class CartDescScreen extends StatelessWidget {
       listener: (context,state){},
       builder: (context,state){
         return Scaffold(
-          appBar: AppBar(),
+          appBar: AppBar(
+              centerTitle: false,
+              title:  Text(
+                '${MainCubit.get(context).cart[index]['name']}',
+              )
+          ),
           body: Center(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -35,9 +40,10 @@ class CartDescScreen extends StatelessWidget {
                     child: Column(
                       children: [
                         Text(
-                          'name :${MainCubit.get(context).cart[index]['name']}',
+                          'name:${MainCubit.get(context).cart[index]['name']}',
                           style: const TextStyle(
                             fontSize: 20,
+                            fontWeight: FontWeight.w500,
                           ),
                         ),
                         const SizedBox(

@@ -27,6 +27,12 @@ class MainCubit extends Cubit<MainStates>{
     const SettingScreen(),
   ];
 
+  List<String>appBar=[
+    'Home',
+    'Cart',
+    'Settings',
+  ];
+
   List cart=[];
 
   //sum of cart items

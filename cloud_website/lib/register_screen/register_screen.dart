@@ -30,7 +30,7 @@ class RegisterScreen extends StatelessWidget {
             key: formKey,
             child: Scaffold(
               appBar: AppBar(
-                centerTitle: true,
+                centerTitle: false,
                 title: const Text(
                     'Register'
                 ),
